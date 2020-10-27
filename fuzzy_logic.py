@@ -81,6 +81,12 @@ def fuzzy_loop(ball, robot):
     robot.rotate(rad=action[1], clockwise=(robot.pos.y >= ball.pos.y))
     robot.move(speed=action[0])
 
+    # centroid method
+    # sum membership functions and outputs
+    
+    # sum membership functions
+    # do average
+
     return dist, angle
 
 """

@@ -16,6 +16,7 @@ pygame.init()
 screen = pygame.display.set_mode([SCREEN_DIM, SCREEN_DIM])
 
 # game objects
+background = pygame.image.load("img/field.png")
 ball = game_object.GameObject(sprite_path="img/ball.png")
 ball.rot = 0.0
 robot = game_object.GameObject(sprite_path="img/robot.bmp")
@@ -37,6 +38,7 @@ while game_running:
                 game_running = False
 
     # white screen    
+    #screen.blit(background, (0, 0))
     screen.fill(C_WHITE)
 
     # fuzzy loop
@@ -56,6 +58,15 @@ while game_running:
         ball.set_dir(rad=(math.pi / 2.0 + rnd_rot_dev))
         ball.speed = BALL_SPEED
         ball_shot = True
+
+
+    # ball bounces on wall
+    if ball.pos.x < 40 or ball.pos.x > 740:
+        print("AAAAJ")
+        ball.rotate(math.pi)
+    if ball.pos.y < 40 or ball.pos.y > 740:
+        print("AAgagsasgAAJ")
+        ball.rotate(math.pi)
 
     # reduce ball speed and stop ball if necessary
     if ball_shot:
