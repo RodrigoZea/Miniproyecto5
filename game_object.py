@@ -27,8 +27,37 @@ class GameObject(pygame.sprite.Sprite):
             new_dir = Vector(math.cos(self.rot), math.sin(self.rot))
         self.dir = Vector(math.cos(self.rot), math.sin(self.rot))
 
-    def move(self, speed=0):
+    def move(self, speed=0, limit=800):
         new_pos = self.pos.add(self.dir.scalar_mult(speed * TIME_DELTA))
+        print("x is: " + str(new_pos.x) + " " + "y is: " + str(new_pos.y))
+
+        # offset so player and ball are still visible
+        offset = 50
+
+        # x limits
+        # off left side
+        if new_pos.x < offset:
+            print("out of bounds! (left)")
+            #new_pos.x = offset
+            new_pos.x = self.pos.x
+        # off right side
+        if new_pos.x > (limit-offset):
+            print("out of bounds! (left)")
+            #new_pos.x = limit-offset
+            new_pos.x = self.pos.x
+
+        # y limits
+        # off top
+        if new_pos.y < offset:
+            print("out of bounds! (top)")
+            #new_pos.y = offset
+            new_pos.y = self.pos.y
+        # off bottom
+        if new_pos.y > limit-offset:
+            print("out of bounds! (bottom)")
+            #new_pos.y = limit-offset
+            new_pos.y = self.pos.y
+
         self.pos = new_pos
 
     def set_dir(self, rad=0.0):
