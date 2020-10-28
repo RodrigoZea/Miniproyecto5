@@ -61,11 +61,9 @@ while game_running:
 
 
     # ball bounces on wall
-    if ball.pos.x < 40 or ball.pos.x > 740:
-        print("AAAAJ")
+    if ball.pos.x < 60 or ball.pos.x > 740:
         ball.rotate(math.pi)
-    if ball.pos.y < 40 or ball.pos.y > 740:
-        print("AAgagsasgAAJ")
+    if ball.pos.y < 60 or ball.pos.y > 740:
         ball.rotate(math.pi)
 
     # reduce ball speed and stop ball if necessary
