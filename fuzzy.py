@@ -22,7 +22,10 @@ ball.rot = 0.0
 robot = game_object.GameObject(sprite_path="img/robot.bmp")
 goal = pygame.Surface((GOAL_WIDTH, GOAL_HEIGHT))
 goal.fill(C_BLACK)
-message_font = pygame.font.SysFont(None, 30)
+message_font = pygame.font.Font('font.ttf', 30)
+over_text = message_font.render('SE ACABO', False, C_WHITE)
+textRect = over_text.get_rect()
+textRect.center = (SCREEN_DIM / 2, SCREEN_DIM / 2)
 
 # game state
 game_running = True
@@ -38,8 +41,8 @@ while game_running:
                 game_running = False
 
     # white screen    
-    #screen.blit(background, (0, 0))
-    screen.fill(C_WHITE)
+    screen.blit(background, (0, 0))
+    #screen.fill(C_WHITE)
 
     # fuzzy loop
     if not ball_shot:
@@ -74,15 +77,24 @@ while game_running:
             ball.speed = 0.0
             ball_shot = False
 
+    # ball reaches goal
+    # simple detection if its on the range
+    if ball.pos.y > 730:
+        if ball.pos.x > (SCREEN_DIM / 2 - GOAL_WIDTH / 2) and ball.pos.x < ((SCREEN_DIM / 2 - GOAL_WIDTH / 2) + GOAL_WIDTH):
+            screen.blit(over_text, textRect)
+            game_running = False
+
     # draw game objects
     screen.blit(ball.surf, (ball.pos.x, ball.pos.y))
     screen.blit(robot.surf, (robot.pos.x, robot.pos.y))
     screen.blit(goal, (SCREEN_DIM / 2 - GOAL_WIDTH / 2, SCREEN_DIM - GOAL_HEIGHT))
+    
 
     # debug messages
     message_surf = message_font.render(f'Distance is {dist:.{3}f}', True, (C_BLACK))
     screen.blit(message_surf, (5, 5))
 
     pygame.display.flip()
+
 
 pygame.quit()
