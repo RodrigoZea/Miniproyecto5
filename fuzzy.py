@@ -11,25 +11,29 @@ from pygame.locals import(
 )
 from constants import *
 
+# randomness
+random.seed(69)
+
 # pygame
 pygame.init()
 screen = pygame.display.set_mode([SCREEN_DIM, SCREEN_DIM])
 
 # game objects
-background = pygame.image.load("img/field.png")
+background = pygame.image.load("img/field.png").convert()
 ball = game_object.GameObject(sprite_path="img/ball.png")
 ball.rot = 0.0
 robot = game_object.GameObject(sprite_path="img/robot.bmp")
 goal = pygame.Surface((GOAL_WIDTH, GOAL_HEIGHT))
 goal.fill(C_BLACK)
 message_font = pygame.font.Font('font.ttf', 30)
-over_text = message_font.render('SE ACABO', False, C_WHITE)
+over_text = message_font.render('GOOOOOL!!!!1', False, C_WHITE)
 textRect = over_text.get_rect()
-textRect.center = (SCREEN_DIM / 2, SCREEN_DIM / 2)
+textRect.center = (SCREEN_DIM / 2, SCREEN_DIM / 2 - 150)
 
 # game state
 game_running = True
 ball_shot = False
+robot_won = False
 
 while game_running:
     # quit event, click or key
@@ -42,7 +46,6 @@ while game_running:
 
     # white screen    
     screen.blit(background, (0, 0))
-    #screen.fill(C_WHITE)
 
     # fuzzy loop
     if not ball_shot:
@@ -82,7 +85,7 @@ while game_running:
     if ball.pos.y > 730:
         if ball.pos.x > (SCREEN_DIM / 2 - GOAL_WIDTH / 2) and ball.pos.x < ((SCREEN_DIM / 2 - GOAL_WIDTH / 2) + GOAL_WIDTH):
             screen.blit(over_text, textRect)
-            game_running = False
+            robot_won = True
 
     # draw game objects
     screen.blit(ball.surf, (ball.pos.x, ball.pos.y))
@@ -91,10 +94,18 @@ while game_running:
     
 
     # debug messages
-    message_surf = message_font.render(f'Distance is {dist:.{3}f}', True, (C_BLACK))
-    screen.blit(message_surf, (5, 5))
+    message_surf = message_font.render(f'Distance to ball: {dist:.{2}f}', True, (C_BLACK))
+    screen.blit(message_surf, (25, 25))
 
     pygame.display.flip()
+
+    while robot_won:
+        # quit event, click or key
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif event.type == KEYDOWN:
+                pygame.quit()
 
 
 pygame.quit()

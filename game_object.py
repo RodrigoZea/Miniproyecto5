@@ -4,6 +4,9 @@ from vector import Vector
 import random
 from pygame.locals import(RLEACCEL)
 
+# randomness
+random.seed(69)
+
 class GameObject(pygame.sprite.Sprite):
     def __init__(self, sprite_path=""):
         super(GameObject, self).__init__()
@@ -11,7 +14,7 @@ class GameObject(pygame.sprite.Sprite):
         self.surf.set_colorkey((255, 255, 255), RLEACCEL)
         self.rect = self.surf.get_rect()
         self.pos = Vector()
-        self.offset = 50
+        self.offset = 10
         self.pos.random(SCREEN_DIM-self.offset)
         self.rot = random.random() * math.pi
         self.dir = Vector(math.cos(self.rot), math.sin(self.rot))
